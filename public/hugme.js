@@ -13,6 +13,7 @@ var HugMeSocket = function() {
 		_ws.sendSafe = function(data) {
 			try {
 				this.send(data);
+				alert(data);
 			} catch (e) {
 				console.error(e);
 			}
@@ -83,7 +84,6 @@ var HugMeSocket = function() {
 			},
 			"data": {}
 		};
-		alert(1);
 		_ws.sendSafe(JSON.stringify(data));
 	}
 
