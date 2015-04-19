@@ -47,7 +47,11 @@
 	<script type="text/javascript" src="like_client.js"></script>
 	<script type="text/javascript" src="view_manager.js?20150219"></script>
 	<script type="text/javascript">
-	$(window).ready(function($){
+	$(function(){
+		k.find();
+
+
+
 		var likeClient = new LikeClient;
 		if (!likeClient.isSupport()) {
 			alert("ご利用のブラウザは対応していません。\n"
