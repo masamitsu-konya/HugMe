@@ -43,21 +43,29 @@
 		</button>
 	</div>
 
-	<script type="text/javascript" src="like_client.js"></script>
+	<script type="text/javascript" src="hugme.js"></script>
 	<script type="text/javascript" src="view_manager.js?20150219"></script>
 	<script type="text/javascript">
 	$(function(){
-		// ↓ここからkonashi部分追加
+		// ↓ここからkonashi部分追加 - konashi
 		k.find();
 
-		// konashiと接続できた場合
+		// konashiと接続できた場合 - konashi
 		k.ready(function(){
 		    k.pwmMode(k.PIO3, k.KONASHI_PWM_ENABLE);
 		    k.pinMode(k.PIO4, k.OUTPUT);
-		    // k.analogWrite(k.AIO2, 1300);
 		    readPresureSensor();
 		});
 
+		// Webソケット用のオブジェクト作成 - WebSocket
+		var hugMeSocket = new HugMeSocket;
+		if (!hugMeSocket.isSupport()) {
+			alert("ご利用のブラウザは対応していません。\n"
+				+ "Androidの場合はChromeをご利用ください。");
+			return;
+		}
+
+		// 圧力センサーの値を表示 - konashi
 		function readPresureSensor(){
 		    setInterval(function(){
 		        k.analogReadRequest(k.AIO0);
@@ -86,13 +94,6 @@
 
 
 
-		var hugMeSocket = new HugMeSocket;
-		if (!hugMeSocket.isSupport()) {
-			alert("ご利用のブラウザは対応していません。\n"
-				+ "Androidの場合はChromeをご利用ください。");
-			return;
-		}
-
 		var viewManager = new ViewManager($('#button_like'));
 		var updateTotalLike = new NumberAnimatedEffect($('#total_like'), $('#total_like_trans'), 1500, 600);
 		var updateMyLike = new NumberAnimatedEffect($('#my_like'), $('#my_like_trans'), 1500, 600);
@@ -112,9 +113,24 @@
 		hugMeSocket.open();
 
 		$("#button_like").on('click', function() {
-			viewManager.disableLike();
+			// viewManager.disableLike();
 			hugMeSocket.like();
 		});
+
+
+
+
+
+		// ↓ここからセンサーの値を送ってみる実験
+		hugMeSocket.like();
+
+
+
+
+
+
+
+
 	});
 	</script>
 
