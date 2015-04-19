@@ -1,48 +1,13 @@
-var NumberAnimatedEffect = function(container, changeDelay, animationInterval) {
+var NumberAnimatedEffect = function(container) {
 	var _container = container;
-	var _startTime = 0;
 	var _startCount = 0;
 	var _endCount = 0;
-	var _changeDelay = changeDelay;
-	var _animationInterval = animationInterval;
-	var _removeTimeout = 1500;
-	var _active = 0;
 	var _change = function(count) {
-		if ((_container.text() - 0) === count) {
-			return;
-		}
 		_container.text(count);
 	}
-	var _animate = function() {
-		var currentTime = (new Date()).getTime();
-		var currentCount = _container.text() - 0;
-		var progress = currentTime - _startTime;
-		if (progress < _changeDelay) {
-			_change(_startCount + Math.ceil((_endCount - _startCount) * progress / _changeDelay));
-			_active = 1;
-			setTimeout(_animate, _animationInterval);
-			return;
-		}
-		else {
-			_active = 0;
-		}
-		_change(_endCount);
+	return function(count) {
+		_change(count);
 	}
-
-	return function(count, noDelay) {
-		if (noDelay) {
-			_startTime = 0;
-			_startCount = _endCount = count;
-			_change(count);
-			return;
-		}
-		_startTime = (new Date()).getTime();
-		_startCount = _container.text() - 0;
-		_endCount = count;
-		if (_active === 0) {
-			_animate();
-		}
-	};
 };
 
 
