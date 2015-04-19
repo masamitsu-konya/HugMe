@@ -21,28 +21,29 @@
 
 
 	<section>
-		みんなのいいね！
-		<div id="total_like" class="counter counter_contents">0</div>
-		<div class="counter">&nbsp;</div>
+		<div id="total_like">0</div>
 	</section>
 
-	<section>
-		Myいいね！
-		<div id="my_like" class="counter counter_contents">0</div>
-		<div class="counter">&nbsp;</div>
-	</section>
+	<button id="button_like">いいね！</button>
 
-	<div class="like_button">
-		<button id="button_like" class="like_button_face">
-			<span>いいね！</span>
-			<div class="loader_container">
-				<div class="loader"></div>
-			</div>
-		</button>
-	</div>
+
+
+
+
+
 
 	<script type="text/javascript" src="hugme.js"></script>
 	<script type="text/javascript" src="view_manager.js?20150219"></script>
+
+
+
+
+
+
+
+
+
+
 	<script type="text/javascript">
 	$(function(){
 		// ↓ここからkonashi部分追加 - konashi
@@ -63,10 +64,6 @@
 			return;
 		}
 
-		// WebSocket用の変数設定 - WebSocket
-		//var updateTotalLike = new NumberAnimatedEffect($('#total_like'));
-		//var updateMyLike = new NumberAnimatedEffect($('#my_like'));
-
 		// センサーの値飛ばす実験 - WebSocket - konashi
 		var updatePressureSensor01 = new NumberAnimatedEffect($('.js-show-pressure-sensor01'));
 		var updatePressureSensor02 = new NumberAnimatedEffect($('.js-show-pressure-sensor02'));
@@ -82,17 +79,19 @@
 		            k.analogRead(k.AIO1, function(data2){
 		                $(".js-show-pressure-sensor02").html("圧力センサー02：" + data2);
 
+										hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
+											updatePressureSensor01("圧力センサー01：" + data1);
+											updatePressureSensor02("圧力センサー02：" + data2);
+										};
+
+										hugMeSocket.hug();
+
 		                // 2つの圧力センサーが反応した場合LEDを点灯させる
 		                if( data1 < 10 && data2 < 10 ){
 		                    k.pwmPeriod(k.PIO3, 10000);
 		                    k.pwmDuty(k.PIO3, 1000000);
 		                    k.digitalWrite(k.PIO4, k.HIGH);
 		                    $(".js-show-double").html("圧力センサーが2つとも押されたよ");
-												hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
-													updatePressureSensor01(data1)
-													updatePressureSensor02(data2)
-												};
-												hugMeSocket.hug();
 		                } else {
 		                    k.pwmPeriod(k.PIO3, 10000);
 		                    k.pwmDuty(k.PIO3, 5000);
@@ -101,33 +100,25 @@
 		                }
 		            });
 		        });
-		    }, 300);
+		    }, 3000);
 		}
 
 
 
+		// WebSocket用の変数設定 - WebSocket
 		hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
-			//updateTotalLike(data.total, 1)
-			//updateMyLike(data.user, 1)
+			updatePressureSensor01("圧力センサー01：" + 123);
+			updatePressureSensor02("圧力センサー02：" + 123111);
 		};
 		hugMeSocket.actions.reset = function(data) {
-			//updateTotalLike(0, 1)
-			//updateMyLike(0, 1)
+			updatePressureSensor01("圧力センサー01：" + 0);
+			updatePressureSensor02("圧力センサー02：" + 0);
 		}
 		hugMeSocket.open();
 
 		$("#button_like").on('click', function() {
 			hugMeSocket.hug();
 		});
-
-
-
-
-
-		// ↓ここからセンサーの値を送ってみる実験
-		// hugMeSocket.like();
-
-
 
 
 
