@@ -64,6 +64,22 @@
 			return;
 		}
 
+		// WebSocket用の変数設定 - WebSocket
+		hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
+			updatePressureSensor01("圧力センサー01：" + 123);
+			updatePressureSensor02("圧力センサー02：" + 123111);
+		};
+		hugMeSocket.actions.reset = function(data) {
+			updatePressureSensor01("圧力センサー01：" + 0);
+			updatePressureSensor02("圧力センサー02：" + 0);
+		}
+		hugMeSocket.open();
+
+		$("#button_like").on('click', function() {
+			hugMeSocket.hug();
+		});
+
+
 		// センサーの値飛ばす実験 - WebSocket - konashi
 		var updatePressureSensor01 = new NumberAnimatedEffect($('.js-show-pressure-sensor01'));
 		var updatePressureSensor02 = new NumberAnimatedEffect($('.js-show-pressure-sensor02'));
@@ -102,23 +118,6 @@
 		        });
 		    }, 3000);
 		}
-
-
-
-		// WebSocket用の変数設定 - WebSocket
-		hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
-			updatePressureSensor01("圧力センサー01：" + 123);
-			updatePressureSensor02("圧力センサー02：" + 123111);
-		};
-		hugMeSocket.actions.reset = function(data) {
-			updatePressureSensor01("圧力センサー01：" + 0);
-			updatePressureSensor02("圧力センサー02：" + 0);
-		}
-		hugMeSocket.open();
-
-		$("#button_like").on('click', function() {
-			hugMeSocket.hug();
-		});
 
 
 
