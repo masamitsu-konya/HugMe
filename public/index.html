@@ -63,6 +63,15 @@
 			return;
 		}
 
+		// WebSocket用の変数設定 - WebSocket
+		var updateTotalLike = new NumberAnimatedEffect($('#total_like'), 1500, 600);
+		var updateMyLike = new NumberAnimatedEffect($('#my_like'), 1500, 600);
+
+		// センサーの値飛ばす実験 - WebSocket - konashi
+		var updatePressureSensor01 = new NumberAnimatedEffect($('.js-show-pressure-sensor01'), 1500, 600);
+		var updatePressureSensor02 = new NumberAnimatedEffect($('.js-show-pressure-sensor02'), 1500, 600);
+
+
 		// 圧力センサーの値を表示 - konashi
 		function readPressureSensor(){
 		    setInterval(function(){
@@ -79,6 +88,10 @@
 		                    k.pwmDuty(k.PIO3, 1000000);
 		                    k.digitalWrite(k.PIO4, k.HIGH);
 		                    $(".js-show-double").html("圧力センサーが2つとも押されたよ");
+												hugMeSocket.actions.status = hugMeSocket.actions.like = function(data) {
+													updatePressureSensor01(data1, 1)
+													updatePressureSensor02(data2, 1)
+												};
 		                } else {
 		                    k.pwmPeriod(k.PIO3, 10000);
 		                    k.pwmDuty(k.PIO3, 5000);
@@ -91,13 +104,6 @@
 		}
 
 
-
-		var updateTotalLike = new NumberAnimatedEffect($('#total_like'), 1500, 600);
-		var updateMyLike = new NumberAnimatedEffect($('#my_like'), 1500, 600);
-
-		// センサーの値飛ばす実験
-		var updatePressureSensor01 = new NumberAnimatedEffect($('.js-show-pressure-sensor01'), 1500, 600);
-		var updatePressureSensor02 = new NumberAnimatedEffect($('.js-show-pressure-sensor02'), 1500, 600);
 
 		hugMeSocket.actions.status = hugMeSocket.actions.like = function(data) {
 			updateTotalLike(data.total, 1)
