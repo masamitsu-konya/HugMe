@@ -88,7 +88,7 @@
 		                    k.pwmDuty(k.PIO3, 1000000);
 		                    k.digitalWrite(k.PIO4, k.HIGH);
 		                    $(".js-show-double").html("圧力センサーが2つとも押されたよ");
-												hugMeSocket.actions.status = hugMeSocket.actions.like = function(data) {
+												hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
 													updatePressureSensor01(data1)
 													updatePressureSensor02(data2)
 												};
@@ -105,13 +105,10 @@
 
 
 
-		hugMeSocket.actions.status = hugMeSocket.actions.like = function(data) {
+		hugMeSocket.actions.status = hugMeSocket.actions.hug = function(data) {
 			//updateTotalLike(data.total, 1)
 			//updateMyLike(data.user, 1)
 		};
-		hugMeSocket.actions.total_update = function(data) {
-			//updateTotalLike(data.total, 0)
-		}
 		hugMeSocket.actions.reset = function(data) {
 			//updateTotalLike(0, 1)
 			//updateMyLike(0, 1)
