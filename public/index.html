@@ -12,8 +12,8 @@
 </head>
 <body>
 
-	<div class="js-show-presure-sensor01">圧力センサー01</div>
-	<div class="js-show-presure-sensor02">圧力センサー02</div>
+	<div class="js-show-pressure-sensor01">圧力センサー01</div>
+	<div class="js-show-pressure-sensor02">圧力センサー02</div>
 	<div class="js-show-double"></div>
 
 
@@ -23,14 +23,12 @@
 	<section>
 		みんなのいいね！
 		<div id="total_like" class="counter counter_contents">0</div>
-		<div id="total_like_trans" class="counter_trans_container"></div>
 		<div class="counter">&nbsp;</div>
 	</section>
 
 	<section>
 		Myいいね！
 		<div id="my_like" class="counter counter_contents">0</div>
-		<div id="my_like_trans" class="counter_trans_container"></div>
 		<div class="counter">&nbsp;</div>
 	</section>
 
@@ -54,7 +52,7 @@
 		k.ready(function(){
 		    k.pwmMode(k.PIO3, k.KONASHI_PWM_ENABLE);
 		    k.pinMode(k.PIO4, k.OUTPUT);
-		    readPresureSensor();
+		    readPressureSensor();
 		});
 
 		// Webソケット用のオブジェクト作成 - WebSocket
@@ -66,14 +64,14 @@
 		}
 
 		// 圧力センサーの値を表示 - konashi
-		function readPresureSensor(){
+		function readPressureSensor(){
 		    setInterval(function(){
 		        k.analogReadRequest(k.AIO0);
 		        k.analogReadRequest(k.AIO1);
 		        k.analogRead(k.AIO0, function(data1){
-		            $(".js-show-presure-sensor01").html("圧力センサー01：" + data1);
+		            $(".js-show-pressure-sensor01").html("圧力センサー01：" + data1);
 		            k.analogRead(k.AIO1, function(data2){
-		                $(".js-show-presure-sensor02").html("圧力センサー02：" + data2);
+		                $(".js-show-pressure-sensor02").html("圧力センサー02：" + data2);
 
 		                // 2つの圧力センサーが反応した場合LEDを点灯させる
 		                if( data1 < 10 && data2 < 10 ){
@@ -94,14 +92,16 @@
 
 
 
-		var viewManager = new ViewManager($('#button_like'));
-		var updateTotalLike = new NumberAnimatedEffect($('#total_like'), $('#total_like_trans'), 1500, 600);
-		var updateMyLike = new NumberAnimatedEffect($('#my_like'), $('#my_like_trans'), 1500, 600);
+		var updateTotalLike = new NumberAnimatedEffect($('#total_like'), 1500, 600);
+		var updateMyLike = new NumberAnimatedEffect($('#my_like'), 1500, 600);
+
+		// センサーの値飛ばす実験
+		var updatePressureSensor01 = new NumberAnimatedEffect($('.js-show-pressure-sensor01'), 1500, 600);
+		var updatePressureSensor02 = new NumberAnimatedEffect($('.js-show-pressure-sensor02'), 1500, 600);
 
 		hugMeSocket.actions.status = hugMeSocket.actions.like = function(data) {
 			updateTotalLike(data.total, 1)
 			updateMyLike(data.user, 1)
-			viewManager.enableLike();
 		};
 		hugMeSocket.actions.total_update = function(data) {
 			updateTotalLike(data.total, 0)
@@ -113,7 +113,6 @@
 		hugMeSocket.open();
 
 		$("#button_like").on('click', function() {
-			// viewManager.disableLike();
 			hugMeSocket.like();
 		});
 
@@ -122,7 +121,7 @@
 
 
 		// ↓ここからセンサーの値を送ってみる実験
-		hugMeSocket.like();
+		// hugMeSocket.like();
 
 
 

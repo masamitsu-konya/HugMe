@@ -1,6 +1,5 @@
-var NumberAnimatedEffect = function(container, containerTrans, changeDelay, animationInterval) {
+var NumberAnimatedEffect = function(container, changeDelay, animationInterval) {
 	var _container = container;
-	var _containerTrans = containerTrans;
 	var _startTime = 0;
 	var _startCount = 0;
 	var _endCount = 0;
@@ -12,12 +11,7 @@ var NumberAnimatedEffect = function(container, containerTrans, changeDelay, anim
 		if ((_container.text() - 0) === count) {
 			return;
 		}
-		var trans = $('<div class="counter counter_trans">' + count + '</div>')
-		_containerTrans.append(trans);
 		_container.text(count);
-		setTimeout(function() {
-			trans.remove();
-		}, _removeTimeout);
 	}
 	var _animate = function() {
 		var currentTime = (new Date()).getTime();
