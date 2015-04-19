@@ -49,13 +49,6 @@
 		// ↓ここからkonashi部分追加 - konashi
 		k.find();
 
-		// konashiと接続できた場合 - konashi
-		k.ready(function(){
-		    k.pwmMode(k.PIO3, k.KONASHI_PWM_ENABLE);
-		    k.pinMode(k.PIO4, k.OUTPUT);
-		    readPressureSensor();
-		});
-
 		// Webソケット用のオブジェクト作成 - WebSocket
 		var hugMeSocket = new HugMeSocket;
 		if (!hugMeSocket.isSupport()) {
@@ -78,6 +71,14 @@
 		$("#button_like").on('click', function() {
 			hugMeSocket.hug();
 		});
+
+		// konashiと接続できた場合 - konashi
+		k.ready(function(){
+		    k.pwmMode(k.PIO3, k.KONASHI_PWM_ENABLE);
+		    k.pinMode(k.PIO4, k.OUTPUT);
+		    readPressureSensor();
+		});
+
 
 
 		// センサーの値飛ばす実験 - WebSocket - konashi
