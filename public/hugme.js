@@ -83,6 +83,7 @@ var HugMeSocket = function() {
 			},
 			"data": {}
 		};
+		alert(1);
 		_ws.sendSafe(JSON.stringify(data));
 	}
 
