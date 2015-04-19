@@ -26,9 +26,11 @@ var HugMeSocket = function() {
 			}, 5000);
 		}
 	};
+
 	var _onopen = function(event) {
 		_status();
 	};
+
 	var _onmessage = function(event) {
 		var message = JSON.parse(event.data);
 		if (!message || !message.data || message.data.status !== "success") {
@@ -45,10 +47,12 @@ var HugMeSocket = function() {
 			_actions[action](data);
 		}
 	};
+
 	var _onclose = function(event) {
 		console.log("connection closed. tring to reconnect.");
 		setTimeout(_open, 5000);
 	};
+
 	var _status = function() {
 		var data = {
 			"action": "status",
@@ -59,6 +63,7 @@ var HugMeSocket = function() {
 		};
 		_ws.sendSafe(JSON.stringify(data));
 	};
+
 	var _detail = function() {
 		var data = {
 			"action": "detail",
@@ -69,9 +74,10 @@ var HugMeSocket = function() {
 		};
 		_ws.sendSafe(JSON.stringify(data));
 	};
-	var _like = function() {
+
+	var _hug = function() {
 		var data = {
-			"action": "like",
+			"action": "hug",
 			"user": {
 				"id": _uid
 			},
@@ -79,6 +85,7 @@ var HugMeSocket = function() {
 		};
 		_ws.sendSafe(JSON.stringify(data));
 	}
+
 	var _reset = function(pw) {
 		var data = {
 			"action": "reset",
@@ -90,6 +97,7 @@ var HugMeSocket = function() {
 		};
 		_ws.sendSafe(JSON.stringify(data));
 	}
+
 	var _setConfig = function(pw, config) {
 		var data = {
 			"action": "set_config",
@@ -101,13 +109,14 @@ var HugMeSocket = function() {
 		};
 		_ws.sendSafe(JSON.stringify(data));
 	}
+
 	var _isSupport = function() {
 		return typeof window.WebSocket !== "undefined"
 	}
 
 	return {
 		"open": _open,
-		"like": _like,
+		"hug": _hug,
 		"detail": _detail,
 		"reset": _reset,
 		"setConfig": _setConfig,

@@ -9,28 +9,3 @@ var NumberAnimatedEffect = function(container) {
 		_change(count);
 	}
 };
-
-
-var ViewManager = (function() {
-	var _like;
-
-	var _disableLike = function() {
-		_like.attr("disabled", "true");
-		_like.addClass("like_button_face_active");
-		_like.children("span").css("display", "none");
-		_like.find("div").css("display", "");
-	};
-	var _enableLike = function() {
-		_like.removeAttr("disabled");
-		_like.removeClass("like_button_face_active");
-		_like.children("span").css("display", "");
-		_like.find("div").css("display", "none");
-	};
-	return function(like) {
-		_like = like;
-		return {
-			"disableLike": _disableLike,
-			"enableLike": _enableLike
-		};
-	};
-})();
