@@ -1,8 +1,8 @@
-var LikeClient = function() {
+var HugMeSocket = function() {
 	var _ws;
 	var _intervalId;
 	var _actions = {};
-	var _uidCookieName = "like_uid";
+	var _uidCookieName = "konashi_uid";
 	var _uid = $.cookie(_uidCookieName) === undefined ? "0" : $.cookie(_uidCookieName);
 
 	var _open = function() {
